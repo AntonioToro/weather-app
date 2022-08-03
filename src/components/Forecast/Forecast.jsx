@@ -5,13 +5,13 @@ import ForecastItem from '../ForecastItem/ForecastItem'
 import { validValues } from './../IconState'
 
 const renderForecasstItem = forecast => {
-    const { weekDay, hour, state, temperature } = forecast
+    const { key, weekDay, hour, state, temperature } = forecast
     // Hay que poner un identificador único
     // Vamos a poner una "marca" para encontrar cada item (ForecastItem)
     return (
         <Grid 
             data-testid="forecast-item-container" 
-            item key={`${weekDay}${hour}`}>
+            item key={key}>
             <ForecastItem 
                 hour={hour}
                 weekDay={weekDay}
@@ -45,8 +45,9 @@ const Forecast = ({ forecastItemList }) => {
 */
 Forecast.propTypes = {
     forecastItemList: PropTypes.arrayOf(PropTypes.shape({
+        key: PropTypes.number.isRequired,
         weekDay: PropTypes.string.isRequired,
-        hour: PropTypes.number.isRequired,
+        hour: PropTypes.string.isRequired,
         state: PropTypes.oneOf(validValues).isRequired,
         temperature: PropTypes.number.isRequired,
     })).isRequired,
