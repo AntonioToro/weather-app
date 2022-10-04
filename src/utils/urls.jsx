@@ -1,4 +1,4 @@
-const appid = "fdb503f509462933235611828b891ff4"
+const appid = "b646ec2cf586bde7693454a318d0ecef"
 
 export const getWeatherUrl = ({city, countryCode}) => (
     `https://api.openweathermap.org/data/2.5/weather?q=${city},${countryCode}&appid=${appid}`
