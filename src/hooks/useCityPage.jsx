@@ -1,22 +1,22 @@
-import { useState, useEffect, useDebugValue } from 'react'
+import { useEffect, useDebugValue } from 'react'
 import axios from 'axios'
 import 'moment/locale/es'
 import { useParams } from 'react-router-dom'
 import { getForecastUrl } from '../utils/urls'
 import getChartData from '../utils/transform/getChartData'
 import getForecatItemList from '../utils/transform/getForecastItemList'
+import { getCityCode } from '../utils/utils'
 
-const useCityPage = () => {
-    const [chartData, setChartData] = useState(null)
-    const [forecastItemList, setForecastItemList] = useState(null)
+const useCityPage = (allChartData, allForecastItemList, onSetChartData, onSetForecastItemList) => {
 
     const { city, countryCode } = useParams()
-
+    
     useDebugValue(`useCityPage ${city}`)
-
+    
     useEffect(() => {
+        const cityCode = getCityCode(city, countryCode)
+        
         const getForecast = async () =>{
-
             const url = getForecastUrl({city, countryCode})
 
             try {
@@ -24,20 +24,23 @@ const useCityPage = () => {
 
                 const dataAux = getChartData(data)
 
-                setChartData(dataAux)
+                onSetChartData({ [cityCode]: dataAux})
 
                 const forecastItemListAux = getForecatItemList(data)
 
-                setForecastItemList(forecastItemListAux)
+                onSetForecastItemList({ [cityCode]: forecastItemListAux })
             } catch (error) {
                 console.log(error)
             }
         }
-        
-        getForecast()
-    }, [ city, countryCode ])
 
-    return [city, countryCode, chartData, forecastItemList]
+        if (allChartData && allForecastItemList && !allChartData[cityCode] && !allForecastItemList[cityCode]) {
+            getForecast()
+        }
+
+    }, [ city, countryCode, onSetChartData, onSetForecastItemList, allChartData, allForecastItemList ])
+
+    return [city, countryCode]
 }
 
 export default useCityPage
