@@ -4,8 +4,7 @@ import { getWeatherUrl } from '../utils/urls'
 import getAllWeather from '../utils/transform/getAllWeather'
 import { getCityCode } from '../utils/utils'
 
-const useCityList = (cities, allWeather, onSetAllWeather) => {
-    // const [allWeather, setAllWeather] = useState({})
+const useCityList = (cities, allWeather, actions) => {
     const [error, setError] = useState(null)
 
     useEffect(() => {
@@ -15,13 +14,14 @@ const useCityList = (cities, allWeather, onSetAllWeather) => {
 
             try {
                 const propName = getCityCode(city, countryCode)
-                onSetAllWeather({ [propName]: {} })
+
+                actions({ type: 'SET_ALL_WEATHER', payload: { [propName]: {} } })
 
                 const response = await axios.get(url)
 
                 const allWeatherAux = getAllWeather(response, city, countryCode)
 
-                onSetAllWeather(allWeatherAux)
+                actions({ type: 'SET_ALL_WEATHER', payload: allWeatherAux})
             } catch (error) {
                 if (error.response) {
                     setError("Ha ocurrido un error en el servidor del clima")
@@ -39,7 +39,7 @@ const useCityList = (cities, allWeather, onSetAllWeather) => {
             }
         })
 
-    }, [cities, onSetAllWeather, allWeather])
+    }, [cities, actions, allWeather])
 
     return [error, setError]
 }
