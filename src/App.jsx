@@ -21,7 +21,7 @@ const App = () => {
             
             case 'SET_CHART_DATA':
                 const chartDataCity = action.payload 
-                const newAllChartData = { ...state.chartData, ...chartDataCity }
+                const newAllChartData = { ...state.allChartData, ...chartDataCity }
                 return { ...state, allChartData: newAllChartData }
             
             case 'SET_FORECAST_ITEM_LIST':
