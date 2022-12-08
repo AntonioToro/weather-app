@@ -43,4 +43,6 @@ const data = [
     }
 ]
 
-export const ForecastChartExample = () => <ForecastChart data={data} />
+export const ForecastChartExample = (args) => <ForecastChart {...args} />
+
+ForecastChartExample.args = {data: data}
