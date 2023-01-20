@@ -1,28 +1,24 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import WelcomePage from './pages/WelcomePage'
 import MainPage from './pages/MainPage'
 import CityPage from './pages/CityPage'
 import NotFoundPage from './pages/NotFoundPage'
+import { WeatherContext } from './WheaterContext'
 
 const App = () => {
     return (
-        <Router>
-            <Switch>
-                <Route exact path="/">
-                    <WelcomePage />
-                </Route>
-                <Route path="/main">
-                    <MainPage />
-                </Route>
-                <Route path="/city">
-                    <CityPage />
-                </Route>
-                <Route>
-                    <NotFoundPage />
-                </Route>
-            </Switch>
-        </Router>
+        <WeatherContext>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<WelcomePage />} />
+                    <Route path="/main*" element={<MainPage />} />
+                    <Route path="/city/:countryCode/:city" element={<CityPage />} />
+                    <Route path="*" element={<NotFoundPage />} />
+                </Routes>
+            </Router>
+        </WeatherContext>
+        
     )
 }
 

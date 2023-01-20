@@ -15,4 +15,6 @@ const forecastItemList = [
     { hour: 10, state:"rain", temperature:17, weekDay:"Martes" },
 ]
 
-export const ForecastExample = () => (<Forecast forecastItemList={forecastItemList} />)
+export const ForecastExample = (args) => (<Forecast {...args} />)
+
+ForecastExample.args = {forecastItemList: forecastItemList}
