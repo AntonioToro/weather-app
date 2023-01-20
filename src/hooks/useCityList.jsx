@@ -18,6 +18,7 @@ const useCityList = (cities, allWeather, actions) => {
                 actions({ type: 'SET_ALL_WEATHER', payload: { [propName]: {} } })
 
                 const response = await axios.get(url)
+                console.log(response)
 
                 const allWeatherAux = getAllWeather(response, city, countryCode)
 
